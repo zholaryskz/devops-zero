@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 @app.get("/")
 def index():
-    return jsonify(message="Hello from devops-zero")
+    return jsonify(message="Hello from devops-zero v2")
 
 @app.get("/health")
 def health():
