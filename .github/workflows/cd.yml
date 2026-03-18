@@ -1,0 +1,19 @@
+name: CD
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+
+jobs:
+  deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: self-hosted
+    steps:
+      - name: Deploy devops-zero
+        run: |
+          cd ~/devops-zero
+          git pull origin main
+          docker rm -f devops-zero-compose 2>/dev/null || true
+          docker-compose up -d --build
+          docker-compose ps
